@@ -13,17 +13,19 @@ app.use(express.urlencoded({ extended: true }));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
+console.log("Session secret is:", process.env.SECRET);
+
 app.use(
   session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === "production", 
-      sameSite: "lax",             
-      maxAge: 1000 * 60 * 60 * 2   
-    }
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 2,
+    },
   })
 );
 
@@ -36,7 +38,6 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
-
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -53,12 +54,16 @@ passport.use(
       const user = rows[0];
 
       if (!user) {
-        return done(null, false, { message: "Incorrect username or password." });
+        return done(null, false, {
+          message: "Incorrect username or password.",
+        });
       }
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return done(null, false, { message: "Incorrect username or password." });
+        return done(null, false, {
+          message: "Incorrect username or password.",
+        });
       }
 
       return done(null, user);
@@ -74,14 +79,15 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [
+      id,
+    ]);
     const user = rows[0];
     done(null, user);
   } catch (err) {
     done(err);
   }
 });
-
 
 app.use("/", indexRouter);
 
