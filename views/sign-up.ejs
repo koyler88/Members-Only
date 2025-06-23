@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<main>
+  <h2><%= title %></h2>
+  <br />
+  <br />
+  <form action="/signup" method="POST">
+    <label for="fname">First name</label>
+    <input type="text" name="fname" id="fname" value="<%= values?.fname || '' %>" required/>
+    <label for="lname">Last name</label>
+    <input type="text" name="lname" id="lname" value="<%= values?.lname || '' %>" required/>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" minlength="3" value="<%= values?.username || '' %>" required/>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" minlength="6" required/>
+    <label for="confirmation">Confirm Password</label>
+    <input type="password" name="confirmation" id="confirmation" required/>
+    <button type="submit">Submit</button>
+  </form>
+  <br>
+  <% if (errors.length > 0) { %>
+    <% errors.forEach(error => { %>
+      <p style="color: red"><%= error.msg %></p>
+    <% }); %>
+  <% } else if (message) { %>
+  <p style="color: green"><%= message %></p>
+  <a href="/login">login here</a>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

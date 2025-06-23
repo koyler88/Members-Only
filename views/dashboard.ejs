@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+<nav class="dashboard-nav">
+  <div class="dashboard-nav-inner">
+    <h4 class="welcome-message">Welcome, <%= user.username %></h4>
+    <div class="nav-buttons">
+      <% if (user.member) { %>
+      <p>You are a member of the club!</p>
+      <% } else { %>
+      <a href="/member" class="button-1">Become a member</a>
+      <% } %>
+      <a class="button-1 adjusted" href="/create">New Post</a>
+      <a class="button-1 adjusted" href="/logout">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<main class="center-container dashboard-container">
+  <h2 class="dashboard-heading">Posts</h2>
+
+  <div class="post-list">
+    <% if (posts.length === 0) { %>
+    <p style="color: #6b7280">No posts yet.</p>
+    <% } else { %> <% posts.forEach(post => { %>
+    <div class="card-container">
+      <div class="post-header">
+        <h3 class="post-title"><%= post.title %></h3>
+        <h5><%= post.date %></h5>
+      </div>
+      <div class="post-body">
+        <% if (user.member || post.author === user.username) { %> <%=
+        post.message %> <% } else { %>
+        <p class="locked-message">Become a member to see this post!</p>
+
+        <% } %>
+      </div>
+      <% if (user.member || post.author === user.username) { %>
+      <p class="author">- <%= post.author %></p>
+      <% } else { %>
+      <p class="author">- Anonymous</p>
+      <% } %> <% if (post.author === user.username) { %>
+      <div class="post-actions">
+        <!-- <h6>
+          <a href="/edit"> Edit </a>
+        </h6> -->
+        <h6>
+          <form
+            action="/delete/<%= post.id %>"
+            method="POST"
+            style="display: inline"
+          >
+            <button type="submit" onclick="return confirm('Are you sure?')">
+              Delete
+            </button>
+          </form>
+        </h6>
+      </div>
+      <% } %>
+    </div>
+    <% }) %> <% } %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

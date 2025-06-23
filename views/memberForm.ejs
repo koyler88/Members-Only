@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+
+<main>
+  <form action="/member" method="POST">
+    <h2>Enter Secret Phrase</h2>
+    <input type="text" name="phrase" id="phrase" />
+    <button type="submit">Submit</button>
+  </form>
+  <br>
+  <% if (error && error.length > 0) { %>
+  <p style="color: red"><%= error %></p>
+  <% } %>
+  <br />
+  <a href="/dashboard">Back</a>
+</main>
+
+<%- include('partials/footer') %>
