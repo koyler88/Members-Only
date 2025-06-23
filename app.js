@@ -8,6 +8,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
 require("dotenv").config();
+app.set('trust proxy', 1);
 
 app.use(express.urlencoded({ extended: true }));
 
