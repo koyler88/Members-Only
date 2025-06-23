@@ -7,13 +7,12 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const flash = require("connect-flash");
+require("dotenv").config();
 
 app.use(express.urlencoded({ extended: true }));
 
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
-
-console.log("Session secret is:", process.env.SECRET);
 
 app.use(
   session({
