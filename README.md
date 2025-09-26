@@ -1,6 +1,6 @@
 # Members-Only Club
 
-A secure Node.js web application where users can sign up, log in, create posts, and become members to access exclusive content.
+A secure Node.js web application where users can sign up, log in, create posts, and become members to access exclusive content. 
 
 [Preview](https://kso-members-only.up.railway.app)
 
